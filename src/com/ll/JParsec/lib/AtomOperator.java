@@ -5,18 +5,15 @@ package com.ll.JParsec.lib;
  */
 public class AtomOperator extends Operator {
 
-    /*
-    这异常处理起来简直恶心
-     */
     public Parser equal(Character character) {
         return new Parser() {
             @Override
             Character parse(State state) {
-                Character next = state.next();
-                if (next.equals(character)) {
-                    return next;
+                Character data = state.next();
+                if (data.equals(character)) {
+                    return data;
                 }
-                throw new RuntimeException("except a value equal " + character);
+                throw new RuntimeException("expect a value equal " + character);
             }
         };
     }
@@ -25,11 +22,11 @@ public class AtomOperator extends Operator {
         return new Parser() {
             @Override
             Object parse(State state) throws Exception {
-                Character next = state.next();
-                if (!next.equals(character)) {
-                    return next;
+                Character data = state.next();
+                if (!data.equals(character)) {
+                    return data;
                 }
-                throw new RuntimeException("except a value not equal" + character);
+                throw new RuntimeException("expect a value not equal" + character);
             }
         };
     }
@@ -38,7 +35,12 @@ public class AtomOperator extends Operator {
         return new Parser() {
             @Override
             Object parse(State state) throws Exception {
-                return null;
+                Character data = state.next();
+                for (Character c : characters) {
+                    if(data.equals(c))
+                        return data;
+                }
+                throw new RuntimeException("expect one of" + characters);
             }
         };
     }
@@ -47,10 +49,14 @@ public class AtomOperator extends Operator {
         return new Parser() {
             @Override
             Object parse(State state) throws Exception {
-                return null;
+                Character data = state.next();
+                for (Character c : characters) {
+                    if (data.equals(c)) {
+                        throw new RuntimeException("expect none of" + characters);
+                    }
+                }
+                return data;
             }
         };
     }
-
-
 }
