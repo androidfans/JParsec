@@ -8,7 +8,7 @@ public class SweetOperator {
     Parser characterOf(String string) {
         return new Parser() {
             @Override
-            <T> T parse(State state) throws Exception {
+            Object parse(State state) throws Exception {
                 return null;
             }
         };
@@ -17,7 +17,7 @@ public class SweetOperator {
     Parser characterNotIn(String string) {
         return new Parser() {
             @Override
-            <T> T parse(State state) throws Exception {
+            Object parse(State state) throws Exception {
                 return null;
             }
         };
@@ -26,7 +26,7 @@ public class SweetOperator {
     Parser digit(){
         return new Parser() {
             @Override
-            <T> T parse(State state) throws Exception {
+            Object parse(State state) throws Exception {
                 return null;
             }
         };

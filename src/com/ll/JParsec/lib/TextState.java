@@ -46,9 +46,9 @@ public class TextState implements State {
     }
 
     @Override
-    public Character next() throws Exception {
+    public Character next() {
         if (index == state.length)
-            throw new Exception("index out of bounds");
+            throw new RuntimeException("index out of bounds");
         return state[index++];
     }
 }

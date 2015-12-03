@@ -4,18 +4,19 @@ package com.ll.JParsec.lib;
  * Created by liuli on 15-12-3.
  */
 public class AtomOperator extends Operator {
+
+    /*
+    这异常处理起来简直恶心
+     */
     public Parser equal(Character character) {
         return new Parser() {
             @Override
-            Character parse(State state) throws Exception {
-                try {
-                    if (state.next().equals(character)) {
-                        return character;
-                    }
-                    throw new Exception("except a value equal " + character);
-                } catch (Exception e) {
-                    throw new Exception("parse failed", e);
+            Character parse(State state) {
+                Character next = state.next();
+                if (next.equals(character)) {
+                    return next;
                 }
+                throw new RuntimeException("except a value equal " + character);
             }
         };
     }
@@ -24,7 +25,11 @@ public class AtomOperator extends Operator {
         return new Parser() {
             @Override
             Object parse(State state) throws Exception {
-                return null;
+                Character next = state.next();
+                if (!next.equals(character)) {
+                    return next;
+                }
+                throw new RuntimeException("except a value not equal" + character);
             }
         };
     }
@@ -32,7 +37,7 @@ public class AtomOperator extends Operator {
     public Parser oneOf(Character...characters){
         return new Parser() {
             @Override
-            <T> T parse(State state) throws Exception {
+            Object parse(State state) throws Exception {
                 return null;
             }
         };
@@ -41,7 +46,7 @@ public class AtomOperator extends Operator {
     public Parser noneOf(Character... characters) {
         return new Parser() {
             @Override
-            <T> T parse(State state) throws Exception {
+            Object parse(State state) throws Exception {
                 return null;
             }
         };

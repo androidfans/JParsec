@@ -10,5 +10,5 @@ public interface State {
 
     void rollBack(Integer tran) throws Exception;
 
-    Character next() throws Exception;
+    Character next() throws RuntimeException;
 }
