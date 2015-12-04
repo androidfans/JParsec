@@ -8,36 +8,44 @@ public abstract class Parser <T> implements Monand {
 
     @Override
     public Parser bind(Handler handler) {
-        return new Parser() {
+
+        class BindParser extends Parser {
+
             @Override
-            public Object parse(State state){
-                Object val = parse(state);
+            public Object parse(State state) {
+                Object val = Parser.this.parse(state);
                 Object re = handler.bindHandle(val, state);
                 return re;
             }
-        };
+        }
+
+        return new BindParser();
     }
 
     @Override
     public Parser then(Parser parser) {
-        return new Parser() {
+        class ThenParser extends Parser {
+
             @Override
-            public Object parse(State state){
-                parse(state);
+            public Object parse(State state) {
+                Parser.this.parse(state);
                 return parser.parse(state);
             }
-        };
+        }
+        return new ThenParser();
     }
 
     @Override
     public Parser over(Parser parser) {
-        return new Parser() {
+        class OverParser extends Parser{
+
             @Override
-            public Object parse(State state){
-                Object val = parse(state);
+            public Object parse(State state) {
+                Object val = Parser.this.parse(state);
                 parser.parse(state);
                 return val;
             }
-        };
+        }
+        return new OverParser();
     }
 }

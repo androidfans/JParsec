@@ -45,7 +45,7 @@ public class CombinatorOperator extends Operator {
         class ManyParser extends Parser {
 
             @Override
-            public Object[] parse(State state) {
+            public ArrayList<Object> parse(State state) {
                 ArrayList<Object> re = new ArrayList<>();
                 Parser psc = Try(parser);
                 Object obj = null;
@@ -57,7 +57,7 @@ public class CombinatorOperator extends Operator {
                     }
                     re.add(obj);
                 }
-                return re.toArray();
+                return re;
             }
         };
         return new ManyParser();
@@ -67,7 +67,7 @@ public class CombinatorOperator extends Operator {
         class Many1Parser extends Parser{
 
             @Override
-            public Object parse(State state) {
+            public ArrayList<Object>  parse(State state) {
                 Object r = parser.parse(state);
                 ArrayList<Object> re = new ArrayList<>();
                 re.add(r);
@@ -81,7 +81,7 @@ public class CombinatorOperator extends Operator {
                     }
                     re.add(obj);
                 }
-                return re.toArray();
+                return re;
             }
         }
         return new Many1Parser();
@@ -98,9 +98,10 @@ public class CombinatorOperator extends Operator {
                     try {
                         re =  parser.parse(state);
                     } catch (RuntimeException e) {
-                        if (state.pos() == index) {
+                        if (state.pos() != index) {
                             throw e;
                         }
+                        continue;
                     }
                     return re;
                 }
@@ -126,7 +127,7 @@ public class CombinatorOperator extends Operator {
                 return par.parse(state);
             }
         }
-        return null;
+        return new SepBy1Parser();
     }
 
     public static Parser sepBy(Parser parser, Parser separator) {
@@ -155,7 +156,7 @@ public class CombinatorOperator extends Operator {
 
             @Override
             public Object parse(State state) {
-                Parser par = choice(skip1(Try(parser)), AtomOperator.pack(new ArrayList<>()));
+                Parser par = choice(skip1(parser), AtomOperator.pack(new ArrayList<>()));
                 Object re = par.parse(state);
                 return re;
             }
@@ -163,16 +164,43 @@ public class CombinatorOperator extends Operator {
         return new SkipParser();
     }
 
+    /**
+     * match many times .if failure occured ,then use the tailParser to Parse.
+     * And manyTail use Over Monand ,so the tailParser will be abandoned.
+     * @param parser used to match many times
+     * @param tailParser used to match the tail
+     * @return
+     */
     public static Parser manyTail(Parser parser, Parser tailParser) {
         return many(parser).over(tailParser);
     }
 
+    /**
+     * match many times at least one.if failure occured ,then use the tailParser to Parse.
+     * And manyTail use Over Monand ,so the tailParser will be abandoned.
+     * @param parser used to match many times at least one
+     * @param tailParser used to match the tail
+     * @return
+     */
     public static Parser many1Tail(Parser parser, Parser tailParser) {
         return many1(parser).over(tailParser);
     }
 
     public static Parser otherWise(Parser parser, String description) {
         Parser par = choice(parser, AtomOperator.Fail(description));
-        return par;
+        class OtherWiseParser extends Parser {
+
+            @Override
+            public Object parse(State state) {
+                Object re = null;
+                try {
+                    re = parser.parse(state);
+                } catch (RuntimeException e) {
+                    throw new RuntimeException(description);
+                }
+                return re;
+            }
+        }
+        return new OtherWiseParser();
     }
 }

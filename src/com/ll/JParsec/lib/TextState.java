@@ -29,7 +29,7 @@ public class TextState implements State {
     }
 
     @Override
-    public void rollBack(Integer tran) throws Exception {
+    public void rollBack(Integer tran) {
         seekTo(tran);
         if (begin == tran)
             begin = -1;
@@ -39,9 +39,9 @@ public class TextState implements State {
         return index;
     }
 
-    private void seekTo(Integer pos) throws Exception {
+    private void seekTo(Integer pos) {
         if (pos < 0 && pos >= state.length)
-            throw new Exception("pos out of bounds");
+            throw new RuntimeException("pos out of bounds");
         index = pos;
     }
 
