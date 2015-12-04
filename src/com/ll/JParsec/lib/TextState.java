@@ -35,7 +35,7 @@ public class TextState implements State {
             begin = -1;
     }
 
-    private Integer pos() {
+    public Integer pos() {
         return index;
     }
 

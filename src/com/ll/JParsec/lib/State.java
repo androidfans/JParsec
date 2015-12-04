@@ -8,7 +8,9 @@ public interface State {
 
     void commit(Integer tran);
 
-    void rollBack(Integer tran) throws Exception;
+    void rollBack(Integer tran);
 
     Character next() throws RuntimeException;
+
+    Integer pos();
 }
