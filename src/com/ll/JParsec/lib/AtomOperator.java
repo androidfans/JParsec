@@ -6,18 +6,6 @@ package com.ll.JParsec.lib;
  */
 public class AtomOperator extends Operator {
 
-
-    public static Parser pack(Object retVal) {
-        class packParser extends Parser {
-
-            @Override
-            public Object parse(State state) {
-                return retVal;
-            }
-        }
-        return new packParser();
-    }
-
     public static Parser equal(char chr) {
         class EqualParser extends Parser<Character>  {
             @Override
