@@ -124,8 +124,12 @@ public class AtomOperator extends Operator {
         return new EOFParser();
     }
 
-    
-    public static Parser Fail(String message) {
+    /**
+     * the fail operator always failed and you can pass the message to indicate the reason of the fail
+     * @param message the error message
+     * @return the Parser
+     */
+    public static Parser fail(String message) {
         class FailParser extends Parser<Object>{
 
             @Override

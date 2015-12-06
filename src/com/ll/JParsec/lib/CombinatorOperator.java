@@ -187,7 +187,7 @@ public class CombinatorOperator extends Operator {
     }
 
     public static Parser otherWise(Parser parser, String description) {
-        Parser par = choice(parser, AtomOperator.Fail(description));
+        Parser par = choice(parser, AtomOperator.fail(description));
         class OtherWiseParser extends Parser {
 
             @Override
