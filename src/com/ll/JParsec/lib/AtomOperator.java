@@ -24,7 +24,7 @@ public class AtomOperator extends Operator {
             @Override
             public Character parse(State state) {
                 char data = state.next();
-                if (data == chr) {
+                if (data != chr) {
                     return data;
                 }
                 throw new RuntimeException("expect a value not equal" + chr + " but get" + data);
@@ -85,7 +85,7 @@ public class AtomOperator extends Operator {
                 try {
                     data = state.next();
                 } catch (RuntimeException e) {
-
+                    return null;
                 }
                 throw new RuntimeException("expect eof but" + data);
             }

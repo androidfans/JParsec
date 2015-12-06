@@ -34,12 +34,7 @@ public class AtomOperatorTest {
         Parser<Character> neq = AtomOperator.notEqual('1');
         assertEquals(neq.parse(state).charValue(), '0');
 
-        try {
-            neq.parse(state);
-        } catch (RuntimeException e) {
-            return;
-        }
-        fail("exception not occur");
+        TestUtil.AssertThrowException(neq, state);
     }
 
     @Test
@@ -67,6 +62,17 @@ public class AtomOperatorTest {
             return;
         }
         fail();
+    }
 
-   }
+    @Test
+    public void testEOF() throws Exception {
+        State state = new TextState("01");
+        Parser eof = AtomOperator.EOF();
+        state.next();
+        state.next();
+        eof.parse(state);
+
+        state = new TextState("0");
+        TestUtil.AssertThrowException(eof, state);
+    }
 }

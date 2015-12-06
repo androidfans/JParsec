@@ -131,7 +131,7 @@ public class CombinatorOperator extends Operator {
     }
 
     public static Parser sepBy(Parser parser, Parser separator) {
-        Parser par = choice(sepBy1(parser, separator), AtomOperator.pack(new ArrayList<Object>()));
+        Parser par = choice(sepBy1(parser, separator), AtomOperator.Return(new ArrayList<Object>()));
         return par;
     }
 
@@ -156,7 +156,7 @@ public class CombinatorOperator extends Operator {
 
             @Override
             public Object parse(State state) {
-                Parser par = choice(skip1(parser), AtomOperator.pack(new ArrayList<>()));
+                Parser par = choice(skip1(parser), AtomOperator.Return(new ArrayList<>()));
                 Object re = par.parse(state);
                 return re;
             }
