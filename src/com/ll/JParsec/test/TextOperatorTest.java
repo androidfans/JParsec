@@ -17,7 +17,6 @@ public class TextOperatorTest {
         State state = new TextState("01");
         Parser<Character> chr = TextOperator.Chr('0');
         assertEquals(chr.parse(state).charValue(), '0');
-
         TestUtil.AssertThrowException(chr, state);
     }
 

@@ -6,20 +6,6 @@ package com.ll.JParsec.lib;
  */
 public class AtomOperator extends Operator {
 
-    /*
-    匿名内部类竟然不能传泛型,惊呆了!!
-     */
-    public static Parser one() {
-        class OneParser extends Parser {
-
-            @Override
-            public Character parse(State state) {
-                char data = state.next();
-                return data;
-            }
-        }
-        return new OneParser();
-    }
 
     public static Parser pack(Object retVal) {
         class packParser extends Parser {
