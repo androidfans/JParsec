@@ -6,6 +6,11 @@ package com.ll.JParsec.lib;
  */
 public class AtomOperator extends Operator {
 
+    /**
+     * equal operator expect value equals the parameter.
+     * @param chr the given value
+     * @return the Parser
+     */
     public static Parser equal(char chr) {
         class EqualParser extends Parser<Character>  {
             @Override
@@ -19,6 +24,12 @@ public class AtomOperator extends Operator {
         }
         return new EqualParser();
     }
+
+    /**
+     * notEqual operator expect value differentiates from the parameter
+     * @param chr the given value
+     * @return the Parser
+     */
     public static Parser notEqual(char chr) {
         class NotEqualParser extends Parser{
             @Override
@@ -33,6 +44,11 @@ public class AtomOperator extends Operator {
         return new NotEqualParser();
     }
 
+    /**
+     * oneOf operator expect value is a member of parameters
+     * @param chars several value may include the state's next value
+     * @return the Parser
+     */
     public static Parser oneOf(char...chars){
         class OneOfParser extends Parser{
             @Override
@@ -48,6 +64,11 @@ public class AtomOperator extends Operator {
         return new OneOfParser();
     }
 
+    /**
+     * noneOf operator expect value isn't a member of parameters
+     * @param chars several value may not include the state's next value
+     * @return the Parser
+     */
     public static Parser noneOf(char... chars) {
         class NoneOfParser extends Parser{
 
@@ -65,6 +86,11 @@ public class AtomOperator extends Operator {
         return new NoneOfParser();
     }
 
+    /**
+     * the Return operator always success and return the given value
+     * @param val a value to return
+     * @return the Parser
+     */
     public static Parser Return(Object val) {
         class ReturnParser extends Parser<Object> {
 
@@ -76,6 +102,11 @@ public class AtomOperator extends Operator {
         return new ReturnParser();
     }
 
+    /**
+     * TODO : should add a exception hierarchy make the state can inform the operator what the exception is
+     * EOF will success when the state get the stream's endpoint.under other circumstance , it always failed
+     * @return the Parser
+     */
     public static Parser EOF() {
         class EOFParser extends Parser{
 
@@ -93,6 +124,7 @@ public class AtomOperator extends Operator {
         return new EOFParser();
     }
 
+    
     public static Parser Fail(String message) {
         class FailParser extends Parser<Object>{
 
