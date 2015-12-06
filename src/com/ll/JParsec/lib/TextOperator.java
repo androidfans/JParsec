@@ -1,7 +1,5 @@
 package com.ll.JParsec.lib;
 
-import com.sun.org.apache.bcel.internal.generic.RET;
-
 import java.util.ArrayList;
 
 /**
@@ -71,13 +69,7 @@ public class TextOperator {
     }
 
     public static Parser<String> Int() {
-        class IntHandler extends HandlerAdapter{
-            @Override
-            public Object bindHandle(Object value, State state) {
-                return "-" + value;
-            }
-        }
-        return CombinatorOperator.choice(CombinatorOperator.Try(Chr('-')).then(uInt()).bind(new IntHandler()), uInt());
+        return CombinatorOperator.choice(CombinatorOperator.Try(Chr('-')).then(uInt()).bind(new MinusHandler()), uInt());
     }
 
     public static Parser<String> uFloat() {
@@ -86,14 +78,24 @@ public class TextOperator {
             public String parse(State state) {
                 Parser chrPoint = Chr('.');
                 Parser Try = CombinatorOperator.Try(uInt());
-                Parser choice = CombinatorOperator.choice(Try);
-                return "";
+                Parser choice = CombinatorOperator.choice(Try.over(chrPoint), chrPoint.then(AtomOperator.Return("0")));
+                String left = (String) choice.parse(state);
+                String right = uInt().parse(state);
+                return left + "." + right;
             }
         }
         return new UFloatParser();
     }
 
     public static Parser<String> Float() {
-        return CombinatorOperator.choice(CombinatorOperator.Try(Chr('-')), uFloat());
+        return CombinatorOperator.choice(CombinatorOperator.Try(Chr('-')).then(uFloat()).bind(new MinusHandler()), uFloat());
+    }
+}
+
+
+class MinusHandler extends HandlerAdapter{
+    @Override
+    public Object bindHandle(Object value, State state) {
+        return "-" + value;
     }
 }

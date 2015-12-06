@@ -100,12 +100,25 @@ public class TextOperatorTest {
     public void testUFloat() throws Exception {
         State state = new TextState("0.23");
         Parser uFloat = TextOperator.uFloat();
-        assertEquals("0.23", uFloat);
+        assertEquals("0.23", uFloat.parse(state));
 
+        state = new TextState(".23");
+        assertEquals("0.23", uFloat.parse(state));
     }
 
     @Test
     public void testFloat() throws Exception {
+        State state = new TextState("0.23");
+        Parser Float = TextOperator.Float();
+        assertEquals("0.23", Float.parse(state));
 
+        state = new TextState("-1.23");
+        assertEquals("-1.23", Float.parse(state));
+
+        state = new TextState(".23");
+        assertEquals("0.23", Float.parse(state));
+
+        state = new TextState("-.23");
+        assertEquals("-0.23", Float.parse(state));
     }
 }
