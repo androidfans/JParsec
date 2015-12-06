@@ -29,7 +29,7 @@ public class CombinatorOperatorTest {
         Parser eq3 = AtomOperator.equal('d');
         Parser bet = CombinatorOperator.between(eq1, eq2, eq3);
         assertEquals(bet.parse(state), 'b');
-        assertEquals(3, state.pos().intValue());
+        assertEquals(3, state.pos());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class CombinatorOperatorTest {
         for (Object c : arr) {
             assertEquals('a', ((Character) c).charValue());
         }
-        assertEquals(7, state.pos().intValue());
+        assertEquals(7, state.pos());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class CombinatorOperatorTest {
         for (Object c : arr) {
             assertEquals('a', ((Character) c).charValue());
         }
-        assertEquals(7, state.pos().intValue());
+        assertEquals(7, state.pos());
 
         state = new TextState("baaaaab");
         TestUtil.AssertThrowException(many1,state);
@@ -69,7 +69,7 @@ public class CombinatorOperatorTest {
         Parser choice = CombinatorOperator.choice(Try, Try, Try, eq2);
         choice.parse(state);
 
-        assertEquals(1, state.pos().intValue());
+        assertEquals(1, state.pos());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class CombinatorOperatorTest {
         Parser sepBy1 = CombinatorOperator.sepBy1(eq, s);
         List<Object> list = (List<Object>) sepBy1.parse(state);
         assertEquals(4, list.size());
-        assertEquals(7, state.pos().intValue());
+        assertEquals(7, state.pos());
 
 
         state = new TextState("b|a|a|a");
@@ -95,7 +95,7 @@ public class CombinatorOperatorTest {
         Parser sepBy = CombinatorOperator.sepBy(eq, s);
         List<Object> list = (List<Object>) sepBy.parse(state);
         assertEquals(4, list.size());
-        assertEquals(7, state.pos().intValue());
+        assertEquals(7, state.pos());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class CombinatorOperatorTest {
         ArrayList<Object> arr = (ArrayList<Object>) sk1.parse(state);
         assertEquals(null, arr);
 
-        assertEquals(4, state.pos().intValue());
+        assertEquals(4, state.pos());
 
         state = new TextState("baaab");
         TestUtil.AssertThrowException(sk1,state);
@@ -121,7 +121,7 @@ public class CombinatorOperatorTest {
         ArrayList<Object> arr = (ArrayList<Object>) sk.parse(state);
         assertEquals(null, arr);
 
-        assertEquals(4, state.pos().intValue());
+        assertEquals(4, state.pos());
     }
 
     @Test

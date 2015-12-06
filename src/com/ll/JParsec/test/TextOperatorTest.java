@@ -1,7 +1,7 @@
 package com.ll.JParsec.test;
 
 import com.ll.JParsec.lib.*;
-import junit.framework.Assert;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -79,18 +79,28 @@ public class TextOperatorTest {
 
     @Test
     public void testUInt() throws Exception {
-        State state = new TextState("45212ag");
+        State state = new TextState("45212.ag");
         Parser Uint = TextOperator.uInt();
         assertEquals("45212", Uint.parse(state).toString());
+
+        TestUtil.AssertThrowException(Uint,state);
     }
 
     @Test
     public void testInt() throws Exception {
+        State state = new TextState("45212.ag");
+        Parser Int = TextOperator.Int();
+        assertEquals("45212", Int.parse(state).toString());
 
+        state = new TextState("-4562h.");
+        assertEquals("-4562",Int.parse(state));
     }
 
     @Test
     public void testUFloat() throws Exception {
+        State state = new TextState("0.23");
+        Parser uFloat = TextOperator.uFloat();
+        assertEquals("0.23", uFloat);
 
     }
 

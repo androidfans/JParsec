@@ -10,11 +10,11 @@ public class AtomOperator extends Operator {
     匿名内部类竟然不能传泛型,惊呆了!!
      */
     public static Parser one() {
-        class OneParser extends Parser<Character> {
+        class OneParser extends Parser {
 
             @Override
             public Character parse(State state) {
-                Character data = state.next();
+                char data = state.next();
                 return data;
             }
         }
@@ -32,57 +32,57 @@ public class AtomOperator extends Operator {
         return new packParser();
     }
 
-    public static Parser equal(Character character) {
-        class EqualParser extends Parser<Character> {
+    public static Parser equal(char chr) {
+        class EqualParser extends Parser<Character>  {
             @Override
             public Character parse(State state){
-                Character data = state.next();
-                if (data.equals(character)) {
+                char data = state.next();
+                if (data == chr) {
                     return data;
                 }
-                throw new RuntimeException("expect a value equal " + character + " but get" + data);
+                throw new RuntimeException("expect a value equal " + chr + " but get" + data);
             }
         }
         return new EqualParser();
     }
-    public static Parser notEqual(Character character) {
-        class NotEqualParser extends Parser<Character>{
+    public static Parser notEqual(char chr) {
+        class NotEqualParser extends Parser{
             @Override
             public Character parse(State state) {
-                Character data = state.next();
-                if (!data.equals(character)) {
+                char data = state.next();
+                if (data == chr) {
                     return data;
                 }
-                throw new RuntimeException("expect a value not equal" + character + " but get" + data);
+                throw new RuntimeException("expect a value not equal" + chr + " but get" + data);
             }
         }
         return new NotEqualParser();
     }
 
-    public static Parser oneOf(Character...characters){
-        class OneOfParser extends Parser<Character>{
+    public static Parser oneOf(char...chars){
+        class OneOfParser extends Parser{
             @Override
             public Character parse(State state){
-                Character data = state.next();
-                for (Character c : characters) {
-                    if(data.equals(c))
+                char data = state.next();
+                for (char c : chars) {
+                    if(data == c)
                         return data;
                 }
-                throw new RuntimeException("expect one of" + characters);
+                throw new RuntimeException("expect one of" + chars);
             }
         }
         return new OneOfParser();
     }
 
-    public static Parser noneOf(Character... characters) {
-        class NoneOfParser extends Parser<Character>{
+    public static Parser noneOf(char... chars) {
+        class NoneOfParser extends Parser{
 
             @Override
             public Character parse(State state){
-                Character data = state.next();
-                for (Character c : characters) {
-                    if (data.equals(c)) {
-                        throw new RuntimeException("expect none of" + characters );
+                char data = state.next();
+                for (char c : chars) {
+                    if (data == c) {
+                        throw new RuntimeException("expect none of" + chars );
                     }
                 }
                 return data;
@@ -107,7 +107,7 @@ public class AtomOperator extends Operator {
 
             @Override
             public Object parse(State state) {
-                Character data = null;
+                char data = 0;
                 try {
                     data = state.next();
                 } catch (RuntimeException e) {

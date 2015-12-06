@@ -4,13 +4,13 @@ package com.ll.JParsec.lib;
  * Created by liuli on 15-12-3.
  */
 public interface State {
-    Integer begin();
+    int begin();
 
-    void commit(Integer tran);
+    void commit(int tran);
 
-    void rollBack(Integer tran);
+    void rollBack(int tran);
 
     Character next() throws RuntimeException;
 
-    Integer pos();
+    int pos();
 }

@@ -1,5 +1,7 @@
 package com.ll.JParsec.lib;
 
+import com.sun.org.apache.bcel.internal.generic.RET;
+
 import java.util.ArrayList;
 
 /**
@@ -31,7 +33,7 @@ public class TextOperator {
     }
 
     public static Parser charOf(String string) {
-        return AtomOperator.oneOf(TypeUtil.CharArrayToCharacterArray(string.toCharArray()));
+        return AtomOperator.oneOf(string.toCharArray());
     }
 
 
@@ -58,20 +60,37 @@ public class TextOperator {
             public String parse(State state) {
                 Parser many1 = CombinatorOperator.many1(Digit());
                 ArrayList<Character> arr = (ArrayList<Character>) many1.parse(state);
-                StringBuilder builder = new StringBuilder();
-                builder.append(arr.toArray());
-                return builder.toString();
+                char[] chrs = new char[arr.size()];
+                for (int i = 0; i < chrs.length; i++) {
+                    chrs[i] = arr.get(i);
+                }
+                return new String(chrs);
             }
         }
         return new UIntParser();
     }
 
     public static Parser<String> Int() {
-        return CombinatorOperator.choice(CombinatorOperator.Try(Chr('-')), uInt());
+        class IntHandler extends HandlerAdapter{
+            @Override
+            public Object bindHandle(Object value, State state) {
+                return "-" + value;
+            }
+        }
+        return CombinatorOperator.choice(CombinatorOperator.Try(Chr('-')).then(uInt()).bind(new IntHandler()), uInt());
     }
 
     public static Parser<String> uFloat() {
-        return CombinatorOperator.choice(CombinatorOperator.Try(uInt()), Chr('.').then(AtomOperator.Return('0')));
+        class UFloatParser extends Parser<String> {
+            @Override
+            public String parse(State state) {
+                Parser chrPoint = Chr('.');
+                Parser Try = CombinatorOperator.Try(uInt());
+                Parser choice = CombinatorOperator.choice(Try);
+                return "";
+            }
+        }
+        return new UFloatParser();
     }
 
     public static Parser<String> Float() {

@@ -7,39 +7,39 @@ public class TextState implements State {
 
     private char[] state = null;
 
-    private Integer index = 0;
+    private int index = 0;
 
-    private Integer begin = null;
+    private int begin = 0;
 
     public TextState(String state) {
         this.state = state.toCharArray();
     }
 
     @Override
-    public Integer begin() {
-        if (begin == null)
+    public int begin() {
+        if (begin == 0)
             begin = pos();
         return pos();
     }
 
     @Override
-    public void commit(Integer tran) {
+    public void commit(int tran) {
         if(tran == begin)
             begin = -1;
     }
 
     @Override
-    public void rollBack(Integer tran) {
+    public void rollBack(int tran) {
         seekTo(tran);
         if (begin == tran)
             begin = -1;
     }
 
-    public Integer pos() {
+    public int pos() {
         return index;
     }
 
-    private void seekTo(Integer pos) {
+    private void seekTo(int pos) {
         if (pos < 0 && pos >= state.length)
             throw new RuntimeException("pos out of bounds");
         index = pos;
