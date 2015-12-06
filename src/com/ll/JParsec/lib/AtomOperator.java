@@ -4,7 +4,7 @@ package com.ll.JParsec.lib;
 /**
  * Created by liuli on 15-12-3.
  */
-public class AtomOperator extends Operator {
+public class AtomOperator {
 
     /**
      * equal operator expect value equals the parameter.

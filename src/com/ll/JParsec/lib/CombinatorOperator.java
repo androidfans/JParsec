@@ -6,7 +6,7 @@ import java.util.Collection;
 /**
  * Created by liuli on 15-12-3.
  */
-public class CombinatorOperator extends Operator {
+public class CombinatorOperator {
     public static Parser Try(Parser parser) {
         class TryParser extends Parser<Object> {
 
