@@ -2,9 +2,8 @@ package com.ll.JParsec.test;
 
 import com.ll.JParsec.lib.State;
 import com.ll.JParsec.lib.TextState;
-import junit.framework.Assert;
 import org.junit.Test;
-
+import static org.junit.Assert.*;
 /**
  * Created by liuli on 15-12-4.
  */
@@ -17,7 +16,7 @@ public class TextStateTest {
         state.next();
         state.next();
         state.commit(chan);
-        Assert.assertEquals(state.next().charValue(), '2');
+        assertEquals(state.next().charValue(), '2');
     }
 
     @Test
@@ -27,7 +26,7 @@ public class TextStateTest {
         state.next();
         state.next();
         state.rollBack(chan);
-        Assert.assertEquals(state.next().charValue(), '0');
+        assertEquals(state.next().charValue(), '0');
     }
 
     @Test
@@ -36,6 +35,6 @@ public class TextStateTest {
         state.next();
         state.next();
         Character data = state.next();
-        Assert.assertEquals(data.charValue(), '2');
+        assertEquals(data.charValue(), '2');
     }
 }

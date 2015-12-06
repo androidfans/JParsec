@@ -10,3 +10,20 @@ public abstract class Handler {
 
     public abstract Object overHandle(State state);
 }
+
+class HandlerAdapter extends Handler {
+    @Override
+    public Object bindHandle(Object value, State state) {
+        return null;
+    }
+
+    @Override
+    public Object thenHandle(State state) {
+        return null;
+    }
+
+    @Override
+    public Object overHandle(State state) {
+        return null;
+    }
+}

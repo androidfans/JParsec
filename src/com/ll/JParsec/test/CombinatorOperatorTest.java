@@ -1,11 +1,9 @@
 package com.ll.JParsec.test;
 
 import com.ll.JParsec.lib.*;
-import junit.framework.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -30,8 +28,8 @@ public class CombinatorOperatorTest {
         Parser eq2 = AtomOperator.equal('b');
         Parser eq3 = AtomOperator.equal('d');
         Parser bet = CombinatorOperator.between(eq1, eq2, eq3);
-        Assert.assertEquals(bet.parse(state), 'b');
-        Assert.assertEquals(3, state.pos().intValue());
+        assertEquals(bet.parse(state), 'b');
+        assertEquals(3, state.pos().intValue());
     }
 
     @Test
@@ -41,9 +39,9 @@ public class CombinatorOperatorTest {
         Parser many = CombinatorOperator.many(eq);
         ArrayList<Object> arr = (ArrayList<Object>) many.parse(state);
         for (Object c : arr) {
-            Assert.assertEquals('a', ((Character) c).charValue());
+            assertEquals('a', ((Character) c).charValue());
         }
-        Assert.assertEquals(7, state.pos().intValue());
+        assertEquals(7, state.pos().intValue());
     }
 
     @Test
@@ -53,9 +51,9 @@ public class CombinatorOperatorTest {
         Parser many1 = CombinatorOperator.many1(eq);
         ArrayList<Object> arr = (ArrayList<Object>) many1.parse(state);
         for (Object c : arr) {
-            Assert.assertEquals('a', ((Character) c).charValue());
+            assertEquals('a', ((Character) c).charValue());
         }
-        Assert.assertEquals(7, state.pos().intValue());
+        assertEquals(7, state.pos().intValue());
 
         state = new TextState("baaaaab");
         TestUtil.AssertThrowException(many1,state);
@@ -71,7 +69,7 @@ public class CombinatorOperatorTest {
         Parser choice = CombinatorOperator.choice(Try, Try, Try, eq2);
         choice.parse(state);
 
-        Assert.assertEquals(1, state.pos().intValue());
+        assertEquals(1, state.pos().intValue());
     }
 
     @Test
@@ -81,8 +79,8 @@ public class CombinatorOperatorTest {
         Parser eq = AtomOperator.equal('a');
         Parser sepBy1 = CombinatorOperator.sepBy1(eq, s);
         List<Object> list = (List<Object>) sepBy1.parse(state);
-        Assert.assertEquals(4, list.size());
-        Assert.assertEquals(7, state.pos().intValue());
+        assertEquals(4, list.size());
+        assertEquals(7, state.pos().intValue());
 
 
         state = new TextState("b|a|a|a");
@@ -96,8 +94,8 @@ public class CombinatorOperatorTest {
         Parser eq = AtomOperator.equal('a');
         Parser sepBy = CombinatorOperator.sepBy(eq, s);
         List<Object> list = (List<Object>) sepBy.parse(state);
-        Assert.assertEquals(4, list.size());
-        Assert.assertEquals(7, state.pos().intValue());
+        assertEquals(4, list.size());
+        assertEquals(7, state.pos().intValue());
     }
 
     @Test
@@ -107,9 +105,9 @@ public class CombinatorOperatorTest {
         Parser eq = AtomOperator.equal('a');
         Parser sk1 = CombinatorOperator.skip1(eq);
         ArrayList<Object> arr = (ArrayList<Object>) sk1.parse(state);
-        Assert.assertEquals(null, arr);
+        assertEquals(null, arr);
 
-        Assert.assertEquals(4, state.pos().intValue());
+        assertEquals(4, state.pos().intValue());
 
         state = new TextState("baaab");
         TestUtil.AssertThrowException(sk1,state);
@@ -121,9 +119,9 @@ public class CombinatorOperatorTest {
         Parser eq = AtomOperator.equal('a');
         Parser sk = CombinatorOperator.skip(eq);
         ArrayList<Object> arr = (ArrayList<Object>) sk.parse(state);
-        Assert.assertEquals(null, arr);
+        assertEquals(null, arr);
 
-        Assert.assertEquals(4, state.pos().intValue());
+        assertEquals(4, state.pos().intValue());
     }
 
     @Test
@@ -134,7 +132,7 @@ public class CombinatorOperatorTest {
         Parser mat = CombinatorOperator.manyTail(eq, ne);
         ArrayList<Object> arr = (ArrayList<Object>) mat.parse(state);
         for (Object c : arr) {
-            Assert.assertEquals('a',((Character)c).charValue());
+            assertEquals('a',((Character)c).charValue());
         }
     }
 
@@ -146,7 +144,7 @@ public class CombinatorOperatorTest {
         Parser ma1t = CombinatorOperator.many1Tail(eq, ne);
         ArrayList<Object> arr = (ArrayList<Object>) ma1t.parse(state);
         for (Object c : arr) {
-            Assert.assertEquals('a',((Character)c).charValue());
+            assertEquals('a',((Character)c).charValue());
         }
 
         state = new TextState("baab");
@@ -161,11 +159,11 @@ public class CombinatorOperatorTest {
         try {
             ow.parse(state);
         } catch (RuntimeException e) {
-            Assert.assertEquals("the first operator is fail , so bad", e.getMessage());
+            assertEquals("the first operator is fail , so bad", e.getMessage());
         }
 
         state = new TextState("ab");
         Character c = (Character) ow.parse(state);
-        Assert.assertEquals('a', c.charValue());
+        assertEquals('a', c.charValue());
     }
 }
