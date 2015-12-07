@@ -144,6 +144,13 @@ public class CombinatorOperator {
         }
         return new ChoiceParser();
     }
+
+    /**
+     * sepBy operator match one to many times parser with separator
+     * @param parser the parser
+     * @param separator the separator
+     * @return the parser
+     */
     public static Parser sepBy1(Parser parser, Parser separator) {
         class SepBy1Parser extends Parser {
 
@@ -164,11 +171,25 @@ public class CombinatorOperator {
         return new SepBy1Parser();
     }
 
+    /**
+     * sepBy operator match zero to many times parser with separator
+     * and the parser will return all the parser's value and drop the separator's value
+     * @param parser
+     * @param separator
+     * @return the parser
+     */
     public static Parser sepBy(Parser parser, Parser separator) {
         Parser par = choice(sepBy1(parser, separator), AtomOperator.Return(new ArrayList<Object>()));
         return par;
     }
 
+    /**
+     * skip1 separator match one to many times but it will not store the value
+     * the first match must success otherwise it will throw the exception
+     * and it also will not store the value
+     * @param parser the parser to skip one
+     * @return the parser
+     */
     public static Parser skip1(Parser parser) {
         return parser.bind(new HandlerAdapter(){
             @Override
@@ -185,6 +206,12 @@ public class CombinatorOperator {
         });
     }
 
+    /**
+     * skip separator match zero to many times but it will not store the value
+     * the skip operator has handle the try , you don't need to wrap the try operator to the parser
+     * @param parser the parser to skip
+     * @return the Parser
+     */
     public static Parser skip(Parser parser) {
         class SkipParser extends Parser {
 
@@ -220,6 +247,12 @@ public class CombinatorOperator {
         return many1(parser).over(tailParser);
     }
 
+    /**
+     * otherwise operator match the given parser if failed ,it will throw an exception with given description
+     * @param parser the parser
+     * @param description the description
+     * @return the parser
+     */
     public static Parser otherWise(Parser parser, String description) {
         Parser par = choice(parser, AtomOperator.fail(description));
         class OtherWiseParser extends Parser {
