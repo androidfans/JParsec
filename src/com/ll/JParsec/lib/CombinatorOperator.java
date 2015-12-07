@@ -7,6 +7,12 @@ import java.util.Collection;
  * Created by liuli on 15-12-3.
  */
 public class CombinatorOperator {
+    /**
+     * the Try operator accept a Parser and execute it . if the Parser failed , Try operator will rollback it to the correct position
+     * but the Try operator doesn't catch some exception , it will throw the exception from the given Parser
+     * @param parser Parser to try
+     * @return the after-try parser
+     */
     public static Parser Try(Parser parser) {
         class TryParser extends Parser<Object> {
 
@@ -27,6 +33,13 @@ public class CombinatorOperator {
         return new TryParser();
     }
 
+    /**
+     * the between operator will execute the open operator then the close operator and then the psc operator,and return the result from close operator
+     * @param open the open Parser
+     * @param close the close Parser
+     * @param psc the psc Parser
+     * @return the between Parser
+     */
     public static Parser between(Parser open, Parser close, Parser psc) {
         class BetweenParser extends Parser<Object> {
 
@@ -41,6 +54,13 @@ public class CombinatorOperator {
         return new BetweenParser();
     }
 
+    /**
+     * the many operator match zero to many times using the given parser
+     * the many operator encapsulate the try operator
+     * and it has catch the exception internal , so you have no necessary to handle some exception
+     * @param parser the parser to match many times
+     * @return the many Parser
+     */
     public static Parser many(Parser parser) {
         class ManyParser extends Parser {
 
@@ -63,6 +83,12 @@ public class CombinatorOperator {
         return new ManyParser();
     }
 
+    /**
+     * many1 operator likes many, but many1 will match at least one times.
+     * if the first time not matched , it will throw the exception , and the first operator will not rollback
+     * @param parser the Parser to match many1 times
+     * @return the many1 Parser
+     */
     public static Parser many1(Parser parser) {
         class Many1Parser extends Parser{
 
@@ -87,6 +113,14 @@ public class CombinatorOperator {
         return new Many1Parser();
     }
 
+    /**
+     * the choice operator accept several parsers , and it will try them singly
+     * if someone feasible,it will return the result from it.
+     * and it will throw exception when all the parsers failed or a parser doesn't rollback after execution
+     * it means you should try every operator unless the last one by yourself
+     * @param parsers parsers to choice
+     * @return the choice Parser
+     */
     public static Parser choice(Parser... parsers) {
         class ChoiceParser extends Parser{
 
