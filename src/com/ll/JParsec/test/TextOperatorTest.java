@@ -61,10 +61,10 @@ public class TextOperatorTest {
     @Test
     public void testWhiteSpace() throws Exception {
         State state = new TextState(" " + Global.LINESEPARATOR + "\t");
-        Parser sep = TextOperator.whiteSpace();
-        assertEquals(" ", sep.parse(state).toString());
-        assertEquals(Global.LINESEPARATOR, sep.parse(state).toString());
-        assertEquals("\t", sep.parse(state).toString());
+        Parser whiteSpace = TextOperator.whiteSpace();
+        assertEquals(" ", whiteSpace.parse(state).toString());
+        assertEquals(Global.LINESEPARATOR, whiteSpace.parse(state).toString());
+        assertEquals("\t", whiteSpace.parse(state).toString());
     }
 
     @Test

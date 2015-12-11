@@ -120,7 +120,7 @@ public class CombinatorOperatorTest {
         Parser sk = CombinatorOperator.skip(eq);
         ArrayList<Object> arr = (ArrayList<Object>) sk.parse(state);
         assertEquals(null, arr);
-
+        
         assertEquals(4, state.pos());
     }
 

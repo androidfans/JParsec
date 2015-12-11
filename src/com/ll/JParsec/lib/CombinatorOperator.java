@@ -187,6 +187,7 @@ public class CombinatorOperator {
      * skip1 separator match one to many times but it will not store the value
      * the first match must success otherwise it will throw the exception
      * and it also will not store the value
+     * the skip operator catch the exception internal , but it not means that you don't need to wrap a try operator.because catch the exception but will not rollback.
      * @param parser the parser to skip one
      * @return the parser
      */
@@ -208,7 +209,7 @@ public class CombinatorOperator {
 
     /**
      * skip separator match zero to many times but it will not store the value
-     * the skip operator has handle the try , you don't need to wrap the try operator to the parser
+     * the skip operator catch the exception internal , but it not means that you don't need to wrap a try operator.because catch the exception but will not rollback.
      * @param parser the parser to skip
      * @return the Parser
      */
