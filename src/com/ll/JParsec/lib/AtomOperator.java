@@ -23,7 +23,7 @@ public class AtomOperator {
             }
         }
         return new EqualParser();
-    }
+    } 
 
     /**
      * notEqual operator expect value differentiates from the parameter
